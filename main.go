@@ -4,9 +4,13 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
+	"os"
 )
 
-const PORT = "3000"
+var (
+	PORT     = "3000"
+	APP_NAME = os.Getenv("APP_NAME")
+)
 
 func main() {
 	r := gin.Default()
@@ -15,8 +19,9 @@ func main() {
 
 	r.GET("/", func(c *gin.Context) {
 		c.File("./index.html")
+		fmt.Printf("Request served by %s\n", APP_NAME)
 	})
 
-	log.Printf("Server is running on port %s", PORT)
+	log.Printf("%s is running on port %s\n", APP_NAME, PORT)
 	log.Fatalln(r.Run(fmt.Sprintf(":%s", PORT)))
 }
